@@ -1,0 +1,55 @@
+# Surface Recon — Configuration File
+# Copy this to config.yaml and fill in your API keys.
+# All fields are optional — the tool works without any keys.
+# API keys can also be set via environment variables (see below).
+
+# ── API Keys ──────────────────────────────────────────────────────────────────
+# Set via environment variable instead of file if preferred:
+#   SHODAN_API_KEY, VT_API_KEY, SECURITYTRAILS_API_KEY, OTX_API_KEY
+api_keys:
+  shodan: ""                # https://account.shodan.io/
+  virustotal: ""            # https://www.virustotal.com/gui/my-apikey
+  securitytrails: ""        # https://securitytrails.com/app/account/credentials
+  alienvault: ""            # https://otx.alienvault.com/api (free, optional)
+
+# ── Rate Limits (requests per second, unless noted) ───────────────────────────
+rate_limits:
+  target: 10.0              # req/sec against the scan target itself
+  ip_api: 40.0              # req/min — ip-api.com free tier limit is 45/min
+  archive_org: 8.0          # req/min — be polite to the Wayback Machine
+  crt_sh: 3.0               # req/sec — crt.sh can be slow; keep this low
+  shodan: 1.0               # req/sec — Shodan free tier
+  virustotal: 4.0           # req/min — VT free tier is 4 req/min
+
+# ── DNS Configuration ─────────────────────────────────────────────────────────
+dns:
+  resolvers:
+    - "8.8.8.8"             # Google
+    - "1.1.1.1"             # Cloudflare
+    - "9.9.9.9"             # Quad9
+    - "208.67.222.222"      # OpenDNS
+    - "8.8.4.4"             # Google secondary
+  concurrency: 200          # parallel DNS queries for subdomain brute-force
+  timeout: 3.0              # seconds per query
+  validation_resolvers: 2   # confirm positives against N distinct resolvers
+
+# ── Scan Behaviour ────────────────────────────────────────────────────────────
+scan:
+  subdomain_permutations: true   # generate label permutations from known subdomains
+  axfr_attempt: true             # attempt DNS zone transfer against each NS
+  js_analysis: true              # download and analyse JavaScript files
+  content_verify_exposed: true   # verify .git/.env body content, not just HTTP 200
+  soft_404_detection: true       # calibrate against random paths to avoid false positives
+  external_tools: true           # use subfinder/amass/nmap if found in PATH
+
+# ── Proxy ─────────────────────────────────────────────────────────────────────
+proxy:
+  enabled: false
+  url: ""                   # e.g. socks5://127.0.0.1:9050  or  http://proxy:8080
+  tor_autodetect: true      # auto-enable if Tor is running on 127.0.0.1:9050
+
+# ── Wordlists ─────────────────────────────────────────────────────────────────
+# Paths are relative to the project root, or absolute.
+wordlists:
+  subdomains: "wordlists/subdomains.txt"
+  paths: "wordlists/paths.txt"
