@@ -1,45 +1,11 @@
-# Surface Recon — Python dependencies
+# Deep Web Recon — Python dependencies
 # Install with: pip install -r requirements.txt
 #
-# Optional extras:
-#   sslyze    — deep TLS analysis (falls back to manual SSL socket if absent)
-#   nmap      — requires nmap binary in PATH for service/version detection
-#   subfinder — external subdomain enum tool (go binary, not pip)
+# tkinter is part of the Python standard library.
+#   Windows/macOS: included with the standard Python installer.
+#   Linux:         sudo apt install python3-tk   (Debian/Ubuntu)
+#                  sudo dnf install python3-tkinter  (Fedora)
 
-# ── Core async I/O ────────────────────────────────────────────────────────────
-aiohttp>=3.9.0
-aiohttp[speedups]           # optional C-extension speedup (cchardet, aiodns C bindings)
-aiodns>=3.1.0               # async DNS resolver for subdomain brute-force
-
-# ── Data modelling & config ───────────────────────────────────────────────────
-pydantic>=2.5.0
-pyyaml>=6.0.1
-
-# ── DNS ───────────────────────────────────────────────────────────────────────
-dnspython>=2.6.0
-
-# ── IP intelligence ───────────────────────────────────────────────────────────
-ipwhois>=1.2.0
-
-# ── WHOIS ─────────────────────────────────────────────────────────────────────
-python-whois>=0.8.0
-
-# ── TLS analysis (optional but recommended) ───────────────────────────────────
-sslyze>=5.2.0
-
-# ── CLI ───────────────────────────────────────────────────────────────────────
-typer>=0.12.0
-rich>=13.7.0
-
-# ── Logging ───────────────────────────────────────────────────────────────────
-loguru>=0.7.2
-
-# ── GUI ───────────────────────────────────────────────────────────────────────
-# tkinter is included with the standard Python installer on Windows/macOS.
-# On Linux: sudo apt install python3-tk  (Debian/Ubuntu)
-# Pillow is used for the icon image.
-pillow>=10.0.0
-
-# ── Legacy entry point (DeepWebRecon.py) ─────────────────────────────────────
-# The original GUI still uses requests directly.
-requests>=2.31.0
+requests==2.31.0
+dnspython==2.6.1
+ipwhois==1.2.0

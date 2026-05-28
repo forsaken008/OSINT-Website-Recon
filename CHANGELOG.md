@@ -1,4 +1,55 @@
-# Surface Recon — Changelog
+# Deep Web Recon — Changelog
+
+All notable changes are documented here.
+Format follows [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
+
+---
+
+## [0.2.0] — 2026-05-28
+
+### Added
+- DNS: CAA, SOA, DMARC (`_dmarc.<domain>`) records; AXFR zone transfer attempt against each NS
+- SSL: TLS protocol version, cipher suite, Subject Alternative Names (SANs); deprecated protocol warning
+- Security headers: `Cross-Origin-Opener-Policy`, `Cross-Origin-Embedder-Policy`,
+  `Cross-Origin-Resource-Policy`; trivially weak CSP detection (`default-src *`)
+- CMS detection expanded: Next.js, Nuxt.js, Angular, React, Laravel, Django, Ruby on Rails,
+  Symfony, Magento, PrestaShop, TYPO3, Ghost, Wix, Squarespace, Webflow; checks HTTP headers,
+  meta generator tags, specific path fingerprints, and cookie names
+- Exposed files path list expanded to ~25 entries (`.git/HEAD`, `.git/config`, `.svn/wc.db`,
+  `.DS_Store`, `phpinfo.php`, `.npmrc`, `id_rsa`, `wp-config.php.bak`, and more)
+- Exposed files: 403 responses reported as "likely exists (access-controlled)"
+- Subdomain wordlist expanded from 63 to 130+ entries
+- Email harvesting now checks `/contact`, `/about`, `/contact-us`, `/about-us` in addition
+  to the homepage
+- Wayback Machine switched to CDX API — returns up to 10 unique archived URLs with status
+  codes and timestamps instead of a single latest snapshot
+- Strict domain input validation with hostname regex — rejects IPs and shell metacharacters
+  before any network operation
+- Log write failure detection — warns once in the status bar if disk writes fail mid-scan
+- `__version__ = "0.2.0"` constant
+- MIT `LICENSE` file
+- `CONTRIBUTING.md` and `.github/ISSUE_TEMPLATE/bug_report.md`
+
+### Changed
+- Full port scan: reduced from 500 to 100 concurrent threads; pending futures cancelled on user cancel
+- Admin panel detection: `allow_redirects=False`; redirect destinations logged separately
+  to avoid third-party IP disclosure
+- HTTP headers section: fetches over HTTPS first, falls back to HTTP with an explicit warning;
+  HSTS and other HTTPS-only headers now evaluated correctly
+- Each scan section uses its own isolated `requests.Session()` to prevent cookie contamination
+- `deep_recon()` refactored into `deep_recon()` + `_run_scan()` with a `try/finally` that
+  guarantees the GUI never locks up on unexpected exceptions
+- Subdomain enumeration uses `dns.resolver.resolve()` instead of `socket.gethostbyname()`
+  for typed exception handling (NXDOMAIN vs resolver failure vs unexpected)
+- `safe_domain` filename sanitisation strips all non-word/non-hyphen/non-dot characters
+  including Unicode and spaces
+- `run.vbs` uses `pythonw` from PATH instead of a hardcoded personal installation path
+
+### Fixed
+- `requirements.txt` pruned to only packages actually imported (`requests`, `dnspython`,
+  `ipwhois`); all deps pinned to exact versions; `pillow`, `aiohttp`, `sslyze`, `typer`,
+  `rich`, `loguru`, `pydantic`, `pyyaml`, `python-whois` removed
+- `logs/` removed from git tracking; `.gitignore` updated from `logs/*.txt` to `logs/`
 
 ---
 

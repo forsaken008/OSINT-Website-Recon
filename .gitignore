@@ -1,4 +1,4 @@
 .claude/
 __pycache__/
 *.pyc
-logs/*.txt
+logs/
